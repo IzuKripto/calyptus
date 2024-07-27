@@ -3,7 +3,7 @@ import { userKeypair } from "./helpers";
 
 const umi = createUmi ('https://api.devnet.solana.com');
 
-import { createV1, mintV1, mplTokenMetadata, TokenStandard } from "@metaplex-foundation/mpl-token-metadata";
+import { createFungible, createV1, mintV1, mplTokenMetadata, TokenStandard } from "@metaplex-foundation/mpl-token-metadata";
 import { generateSigner, keypairIdentity, percentAmount } from "@metaplex-foundation/umi";
 //import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 //import { userKeypair } from "./helpers";
@@ -43,3 +43,13 @@ async function mintToken() {
         tokenStandard: TokenStandard.Fungible,
     }).sendAndConfirm(umi)
 }
+
+createFungible (umi, {
+    mint,
+    authority: umi.identity,
+    name: metadata.name,
+    symbol: metadata.symbol,
+    uri: metadata.uri,
+    sellerFeeBasisPoints: percentAmount(0),
+    decimals: 9,
+}).sendAndConfirm (umi);
